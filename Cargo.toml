@@ -8,10 +8,14 @@ documentation = "https://github.com/SKY-ALIN/bevy-shaders"
 readme = "README.md"
 homepage = "https://github.com/SKY-ALIN/bevy-shaders"
 repository = "https://github.com/SKY-ALIN/bevy-shaders"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 keywords = ["gamedev", "graphics", "bevy", "shaders", "WGSL"]
 categories = ["game-development", "graphics", "gui", "rendering"]
-include = ["/assets"]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "/assets"
+]
 
 [dependencies]
 bevy = "0.15.1"
