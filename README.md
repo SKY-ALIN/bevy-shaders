@@ -1,6 +1,6 @@
 # A collection of shaders for Bevy 💠
 
-It includes only 2 shaders now and doesn't provide any docs. Sorry, but this is temporary because it's just created />~<\
+It includes only 3 shaders now. Sorry, but this is temporary because it's just created />~<\
 
 
 ![Shader Preview](media/demo.gif)
