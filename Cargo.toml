@@ -1,0 +1,23 @@
+[package]
+name = "bevy-shaders"
+description = "A collection of shaders for Bevy."
+version = "0.1.0"
+edition = "2021"
+authors = ["Vladimir Alinsky <Vladimir@Alinsky.tech>"]
+documentation = "https://github.com/SKY-ALIN/bevy-shaders"
+readme = "README.md"
+homepage = "https://github.com/SKY-ALIN/bevy-shaders"
+repository = "https://github.com/SKY-ALIN/bevy-shaders"
+license = "MIT"
+keywords = ["gamedev", "graphics", "bevy", "shaders", "WGSL"]
+categories = ["game-development", "graphics", "gui", "rendering"]
+include = ["/assets"]
+
+[dependencies]
+bevy = "0.15.1"
+phf = { version = "0.11.3", features = ["macros"] }
+rand = "0.9.0"
+
+[lib]
+name = "bevy_shaders"
+path = "src/lib.rs"
