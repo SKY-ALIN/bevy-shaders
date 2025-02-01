@@ -1,6 +1,6 @@
 [package]
 name = "bevy-shaders"
-description = "A collection of shaders for Bevy."
+description = "A collection of shaders for Bevy 💠"
 version = "0.2.0"
 edition = "2021"
 authors = ["Vladimir Alinsky <Vladimir@Alinsky.tech>"]

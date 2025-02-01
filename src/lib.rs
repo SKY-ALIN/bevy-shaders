@@ -1,4 +1,4 @@
-//! bevy_shader is a collection of shaders for Bevy engine.
+//! bevy_shader is a collection of shaders for the Bevy game engine 💠
 
 #[doc = include_str!("../README.md")]
 use bevy::prelude::*;
