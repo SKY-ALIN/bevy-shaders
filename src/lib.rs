@@ -1,3 +1,7 @@
+//! bevy_shader is a collection of shaders for Bevy engine.
+
+#[doc = include_str!("../README.md")]
+
 use bevy::prelude::*;
 
 pub mod blinking_led;
@@ -10,6 +14,7 @@ pub use blinking_led::BlinkingLEDMaterial;
 pub use led::LEDMaterial;
 pub use text::{TextData, TextMaterial};
 
+/// The main plugin of bevy_shaders package. It registers all new materials, so you can use them easly.
 pub struct ShadersPlugin;
 
 impl Plugin for ShadersPlugin {

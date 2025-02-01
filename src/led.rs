@@ -5,6 +5,23 @@ use bevy::{
     render::render_resource::{AsBindGroup, ShaderRef},
 };
 
+/// Static led material.
+/// 
+/// It lets you add emission to material or make it like transparent like glass.
+/// 
+/// # Examples:
+/// 
+/// For the effect from the examples:
+/// 
+/// ```rust
+/// LEDMaterial::default();
+/// ```
+/// 
+/// You can specify your own color and emission intensity of cource:
+/// 
+/// ```rust
+/// LEDMaterial::new(Color::WHITE).with_emission(3.0);
+/// ```
 #[derive(Asset, TypePath, AsBindGroup, Clone)]
 pub struct LEDMaterial {
     #[uniform(0)]

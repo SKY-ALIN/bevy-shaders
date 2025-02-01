@@ -19,7 +19,7 @@ fn spawn(
     mut materials: ResMut<Assets<TextMaterial>>,
     mut buffers: ResMut<Assets<ShaderStorageBuffer>>,
 ) {
-    const BUFFER_SIZE: usize = 4; // The buffer size. Of the text length might be different, set the maximum amount of characters
+    const BUFFER_SIZE: usize = 4; // The buffer size. If the text length might be differen, set the maximum amount of characters
     let mut buffer = ShaderStorageBuffer::with_size(BUFFER_SIZE, RenderAssetUsages::default());
     buffer.set_data(TextData::<BUFFER_SIZE>::new("37°C")); // Set the data for the buffer we will send to the shade. Updating this buffer you can update the text
     let material = TextMaterial::new(buffers.add(buffer))

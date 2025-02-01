@@ -8,6 +8,36 @@ use bevy::{
 };
 use phf::phf_map;
 
+/// Only GPU-side rendred text, you don't have to render founts to texture and pass it to the shader.
+/// 
+/// For light effect like here it uses emission, so don't forget to enable [bloom shader](https://bevy-cheatbook.github.io/graphics/bloom.html).
+/// It uses it's one encoding - many characters of utf8 missed. If it doesn't have comething you need, make a [PR](https://github.com/SKY-ALIN/bevy-shaders/pulls).
+/// 
+/// Example:
+/// 
+/// ```rust
+/// const BUFFER_SIZE: usize = 4; // The buffer size. If the text length might be differen, set the maximum amount of characters
+/// let mut buffer = ShaderStorageBuffer::with_size(BUFFER_SIZE, RenderAssetUsages::default());
+/// buffer.set_data(TextData::<BUFFER_SIZE>::new("37°C")); // Set the data for the buffer we will send to the shade. Updating this buffer you can update the text
+/// let material = TextMaterial::new(buffers.add(buffer))
+///     .width(250.0) // width for the character calculation. If you imagine that plane is an led monitor, this will be the amount of pixels by width
+///     .height(90.0) // width for the character calculation. If you imagine that plane is an led monitor, this will be the amount of pixels by height
+///     .char_width(50.0) // The character width in pixels we set before
+///     .char_height(70.0) // The character height in pixels we set before
+///     .gap(10.0) // The gap between character in pixels we set before
+///     .margin(10.0) // The margin from borders in pixels we set before
+///     .emission(3.0); // Emission for the light effect. If you use emission, you must enable Bloom shader, as in this example
+/// ```
+/// 
+/// ![Shader Preview](media/text.png)
+/// 
+/// To specify colors use following functions:
+/// 
+/// ```rust
+/// let material = material
+///     .color(Color::WHITE)
+///     .background_color(Color::BLACK)
+/// ```
 #[derive(Asset, TypePath, AsBindGroup, Clone)]
 pub struct TextMaterial {
     #[uniform(0)]
@@ -112,6 +142,24 @@ impl Material for TextMaterial {
     }
 }
 
+/// Text data container that encapsulates encoding logic.
+/// 
+/// We need it to convert `&str` into `[u32; N]` according to the internal encoding.
+/// N - must be the same as buffer size.
+/// 
+/// Example:
+/// 
+/// ```rust
+/// let data = TextData::<4>::new("37°C");  // 4 because we have only 4 chars
+/// 
+/// // Let's create a buffer that will be passed into shader
+/// let mut buffer = ShaderStorageBuffer::with_size(4, RenderAssetUsages::default());
+/// // And pass the data
+/// buffer.set_data(data);
+/// ```
+/// 
+/// If the text length might be different, set the maximum amount of characters for the buffer.
+/// Changing the buffer you will change the rendered text.
 #[derive(Debug, Clone, ShaderType)]
 pub struct TextData<const N: usize> {
     pub count: u32,
