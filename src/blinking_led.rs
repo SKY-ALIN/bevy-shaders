@@ -6,23 +6,22 @@ use bevy::{
 };
 use rand::prelude::*;
 
-
 /// Blinking led material.
-/// 
+///
 /// It blinks according to the specified intervals sequence.
-/// 
+///
 /// # Examples:
-/// 
+///
 /// For the effect from the examples:
-/// 
+///
 /// ```rust
 /// BlinkingLEDMaterial::default()
 /// ```
-/// 
+///
 /// ![Shader Preview](media/blinking_led.gif)
-/// 
+///
 /// You can specify your own colors, emission intensity and sequence of cource:
-/// 
+///
 /// ```rust
 /// let active_color = Color:WHITE;
 /// let passive_color = Color::BLACK;

@@ -1,7 +1,6 @@
 //! bevy_shader is a collection of shaders for Bevy engine.
 
 #[doc = include_str!("../README.md")]
-
 use bevy::prelude::*;
 
 pub mod blinking_led;
