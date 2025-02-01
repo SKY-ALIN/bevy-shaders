@@ -4,6 +4,8 @@
 }
 
 @group(2) @binding(0) var<uniform> sequence: array<vec4<f32>, 4>;
+@group(2) @binding(1) var<uniform> active_color: vec4<f32>;
+@group(2) @binding(2) var<uniform> passive_color: vec4<f32>;
 
 @fragment
 fn fragment(input: VertexOutput) -> @location(0) vec4<f32> {
@@ -44,14 +46,9 @@ fn fragment(input: VertexOutput) -> @location(0) vec4<f32> {
         return vec4<f32>(0.0, 0.0, 0.0, 1.0);
     }
 
-    let color = vec3<f32>(0.08, 0.37, 0.74);
-    let emission_intensity = 3.0;
-
     if ((interval_index % 2) == 1) {
-        let glass_color = vec4<f32>(color, 0.4);
-        return glass_color;
+        return passive_color;
     } else {
-        let light_color = vec4<f32>(color * emission_intensity, 1.0);
-        return light_color;
+        return active_color;
     }
 }

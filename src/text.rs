@@ -1,4 +1,4 @@
-use bevy::math::vec4;
+use crate::color::{bevy_color_into_vec4, MY_BLUE_COLOR, MY_BLUE_GLASS_COLOR};
 use bevy::prelude::*;
 use bevy::render::render_resource::ShaderType;
 use bevy::render::storage::ShaderStorageBuffer;
@@ -7,51 +7,6 @@ use bevy::{
     render::render_resource::{AsBindGroup, ShaderRef},
 };
 use phf::phf_map;
-use rand::prelude::*;
-
-pub struct ShadersPlugin;
-
-impl Plugin for ShadersPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_plugins(MaterialPlugin::<BlinkingLEDMaterial>::default())
-            .add_plugins(MaterialPlugin::<TextMaterial>::default());
-    }
-}
-
-#[derive(Asset, TypePath, AsBindGroup, Clone)]
-#[repr(C, align(16))]
-pub struct BlinkingLEDMaterial {
-    #[uniform(0)]
-    pub sequence: [Vec4; 4],
-}
-
-impl BlinkingLEDMaterial {
-    pub fn new() -> Self {
-        let mut rnd = rand::rng();
-        let (min_light_interval, max_light_interval) = (50, 200);
-        let (min_glass_interval, max_glass_interval) = (200, 600);
-        let mut sequence = [Vec4::ZERO; 4];
-        for i in 0..4 {
-            sequence[i] = Vec4::new(
-                rnd.random_range(min_light_interval..max_light_interval) as f32,
-                rnd.random_range(min_glass_interval..max_glass_interval) as f32,
-                rnd.random_range(min_light_interval..max_light_interval) as f32,
-                rnd.random_range(min_glass_interval..max_glass_interval) as f32,
-            );
-        }
-        Self { sequence }
-    }
-}
-
-impl Material for BlinkingLEDMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/blinking_led.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode {
-        AlphaMode::Blend
-    }
-}
 
 #[derive(Asset, TypePath, AsBindGroup, Clone)]
 pub struct TextMaterial {
@@ -86,8 +41,8 @@ impl TextMaterial {
             char_height: 7.0,
             margin: 0.0,
             rotation: 0,
-            color: vec4(1.0, 1.0, 1.0, 1.0),
-            background_color: vec4(0.0, 0.0, 0.0, 0.2),
+            color: bevy_color_into_vec4(MY_BLUE_COLOR),
+            background_color: bevy_color_into_vec4(MY_BLUE_GLASS_COLOR),
             gap: 2.0,
             chars: buffer,
         }
@@ -123,8 +78,8 @@ impl TextMaterial {
         self
     }
 
-    pub fn color(mut self, color: Vec4) -> Self {
-        self.color = color;
+    pub fn color(mut self, color: Color) -> Self {
+        self.color = bevy_color_into_vec4(color);
         self
     }
 
@@ -136,8 +91,8 @@ impl TextMaterial {
         self
     }
 
-    pub fn background_color(mut self, background_color: Vec4) -> Self {
-        self.background_color = background_color;
+    pub fn background_color(mut self, color: Color) -> Self {
+        self.background_color = bevy_color_into_vec4(color);
         self
     }
 
@@ -158,7 +113,7 @@ impl Material for TextMaterial {
 }
 
 #[derive(Debug, Clone, ShaderType)]
-pub struct Text<const N: usize> {
+pub struct TextData<const N: usize> {
     pub count: u32,
     pub chars: [u32; N],
 }
@@ -205,7 +160,7 @@ const ENCODING: phf::Map<char, u32> = phf_map! {
     '°' => 37,
 };
 
-impl<const N: usize> Text<N> {
+impl<const N: usize> TextData<N> {
     pub fn new(s: &str) -> Self {
         const DEFAULT: u32 = 36;
         let mut chars = [DEFAULT; N];
